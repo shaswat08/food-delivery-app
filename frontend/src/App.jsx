@@ -7,7 +7,7 @@ import PlaceOrder from "./pages/PlaceOrder";
 
 const App = () => {
   return (
-    <div>
+    <div className="w-[80%] m-auto">
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
