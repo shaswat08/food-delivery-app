@@ -1,12 +1,30 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { food_list } from "../assets/assets";
 
 export const GlobalContext = createContext(null);
 
 export const GlobalState = ({ children }) => {
+  const [cart, setCart] = useState({});
 
-    const contextValue = {
-        food_list
-    }
-  return <GlobalContext.Provider value={contextValue}> {children} </GlobalContext.Provider>;
+  const handleAddToCart = (id) => {
+    !cart[id]
+      ? setCart((prev) => ({ ...prev, [id]: 1 }))
+      : setCart((prev) => ({ ...prev, [id]: prev[id] + 1 }));
+  };
+  const handleRemoveFromCart = (id) => {
+    setCart((prev) => ({ ...prev, [id]: prev[id] - 1 }));
+  };
+  return (
+    <GlobalContext.Provider
+      value={{
+        food_list,
+        cart,
+        setCart,
+        handleAddToCart,
+        handleRemoveFromCart,
+      }}
+    >
+      {children}
+    </GlobalContext.Provider>
+  );
 };

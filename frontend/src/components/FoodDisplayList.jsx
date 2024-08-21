@@ -1,37 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/assets";
+import { GlobalContext } from "../context/StoreContext";
 
 const FoodDisplayList = ({ item }) => {
-  const [itemCounter, setItemCounter] = useState(0);
+  const { cart, handleAddToCart, handleRemoveFromCart } =
+    useContext(GlobalContext);
 
-  useEffect(() => {
-    console.log(itemCounter);
-  }, [itemCounter]);
   return (
     <div className="w-[100%] m-auto rounded-lg shadow-lg shadow-slate-200 animate-fadeIn">
       <div className="relative">
         <img src={item.image} className="w-[100%] rounded-t-lg" />
-        {!itemCounter ? (
+        {!cart[item._id] ? (
           <img
+            onClick={() => handleAddToCart(item._id)}
+            className="cursor-pointer absolute bottom-2 right-3 size-9 hover:size-10"
             src={assets.add_icon_white}
-            className="absolute right-3 bottom-2 size-[30px] cursor-pointer"
-            onClick={() => setItemCounter((prevCount) => prevCount + 1)}
           />
         ) : (
-          <div className="absolute left-14 -bottom-9 size-[30px] cursor-pointer flex gap-2">
+          <div className="flex  items-center rounded-md  gap-2 absolute -bottom-12 left-11 size-9">
             <img
-              onClick={() => setItemCounter((prevCount) => prevCount - 1)}
+              className="cursor-pointer hover:size-10"
+              onClick={() => handleRemoveFromCart(item._id)}
               src={assets.remove_icon_red}
             />
-            <p> {itemCounter} </p>
+            <p className="text-lg font-bold">{cart[item._id]}</p>
             <img
-              onClick={() => setItemCounter((prevCount) => prevCount + 1)}
+              className="cursor-pointer hover:size-10"
+              onClick={() => handleAddToCart(item._id)}
               src={assets.add_icon_green}
             />
           </div>
         )}
       </div>
-      <div className="p-4 mt-7">
+      <div className="p-4 mt-10">
         <div className="flex justify-between items-center mb-3">
           <p className="text-md font-semibold">{item.name}</p>
           <img className="w-16" src={assets.rating_starts} />

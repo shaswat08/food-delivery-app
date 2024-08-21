@@ -3,6 +3,7 @@ import { menu_list } from "../assets/assets";
 import "../index.css";
 
 const ExploreMenu = ({ category, setCategory }) => {
+  console.log(category);
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-3xl tracking-wider font-bold">Explore our menu</h1>
