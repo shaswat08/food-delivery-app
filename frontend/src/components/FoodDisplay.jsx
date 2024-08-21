@@ -12,9 +12,11 @@ const FoodDisplay = ({ category }) => {
         </h1>
       </div>
       <div className="grid grid-cols-4 gap-7">
-        {food_list.map((item) => (
-          <FoodDisplayList item={item} />
-        ))}
+        {food_list.map((item) => {
+          if (category === "all" || category === item.category) {
+            return <FoodDisplayList item={item} />;
+          }
+        })}
       </div>
     </div>
   );
