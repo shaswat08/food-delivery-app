@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets";
+import { Link } from "react-router-dom";
+import { GlobalContext } from "../context/StoreContext";
 
 const NavBar = ({ showLogin, setShowLogin }) => {
   const [menu, setMenu] = useState("home");
+  const { getCartTotal } = useContext(GlobalContext);
 
   return (
     <div className="py-7 px-15 flex justify-between items-center">
@@ -14,7 +17,7 @@ const NavBar = ({ showLogin, setShowLogin }) => {
             menu === "home" ? "pb-[1px] border-b-[2px] border-red-500" : ""
           } `}
         >
-          Home
+          <Link to="/">Home</Link>
         </li>
         <li
           onClick={() => setMenu("menu")}
@@ -22,7 +25,7 @@ const NavBar = ({ showLogin, setShowLogin }) => {
             menu === "menu" ? "pb-[1px] border-b-[2px] border-red-500" : ""
           } `}
         >
-          Menu
+          <Link>Menu</Link>
         </li>
         <li
           onClick={() => setMenu("mobile-app")}
@@ -32,7 +35,7 @@ const NavBar = ({ showLogin, setShowLogin }) => {
               : ""
           } `}
         >
-          Mobile App
+          <Link>Mobile App</Link>
         </li>
         <li
           onClick={() => setMenu("contact-us")}
@@ -42,14 +45,22 @@ const NavBar = ({ showLogin, setShowLogin }) => {
               : ""
           } `}
         >
-          Contact Us
+          <Link>Contact Us</Link>
         </li>
       </ul>
       <div className="flex gap-6 items-center">
         <img className="cursor-pointer" src={assets.search_icon} />
         <div className="relative">
-          <img className="cursor-pointer" src={assets.basket_icon} />
-          <div className="absolute bg-red-400 size-[10px] -right-2 -top-1 rounded-full" />
+          <Link to="/cart">
+            <img
+              onClick={() => setMenu("cart")}
+              className="cursor-pointer"
+              src={assets.basket_icon}
+            />
+          </Link>
+          {getCartTotal() > 0 && (
+            <div className="absolute bg-red-400 size-[10px] -right-2 -top-1 rounded-full" />
+          )}
         </div>
         <button
           onClick={() => setShowLogin(true)}

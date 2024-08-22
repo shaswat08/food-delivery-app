@@ -14,6 +14,19 @@ export const GlobalState = ({ children }) => {
   const handleRemoveFromCart = (id) => {
     setCart((prev) => ({ ...prev, [id]: prev[id] - 1 }));
   };
+
+  const getCartTotal = () => {
+    let totalAmount = 0;
+
+    for (const item in cart) {
+      if (cart[item] > 0) {
+        let info = food_list.find((product) => product._id === item);
+        totalAmount += info.price * cart[item];
+      }
+    }
+
+    return totalAmount;
+  };
   return (
     <GlobalContext.Provider
       value={{
@@ -22,6 +35,7 @@ export const GlobalState = ({ children }) => {
         setCart,
         handleAddToCart,
         handleRemoveFromCart,
+        getCartTotal,
       }}
     >
       {children}
