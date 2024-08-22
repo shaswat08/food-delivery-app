@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { assets } from "../assets/assets";
 
-const NavBar = () => {
+const NavBar = ({ showLogin, setShowLogin }) => {
   const [menu, setMenu] = useState("home");
 
   return (
     <div className="py-7 px-15 flex justify-between items-center">
-      <img
-        className="h-[100px] w-[200px] object-cover"
-        src={assets.logo}
-      />
+      <img className="h-[100px] w-[200px] object-cover" src={assets.logo} />
       <ul className="flex items-center gap-4 font-poppins text-md text-slate-500">
         <li
           onClick={() => setMenu("home")}
@@ -54,7 +51,10 @@ const NavBar = () => {
           <img className="cursor-pointer" src={assets.basket_icon} />
           <div className="absolute bg-red-400 size-[10px] -right-2 -top-1 rounded-full" />
         </div>
-        <button className="bg-transparent border-[1px] border-red-300 rounded-lg px-4 py-2 hover:bg-red-400 transition duration-100 ease-in">
+        <button
+          onClick={() => setShowLogin(true)}
+          className="bg-transparent border-[1px] border-red-300 rounded-lg px-4 py-2 hover:bg-red-400 transition duration-100 ease-in"
+        >
           Sign In
         </button>
       </div>
