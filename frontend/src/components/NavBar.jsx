@@ -6,7 +6,10 @@ const NavBar = () => {
 
   return (
     <div className="py-7 px-15 flex justify-between items-center">
-      <img className="h-[100px] w-[200px] object-cover" src={assets.logo} />
+      <img
+        className="h-[100px] w-[200px] object-cover"
+        src={assets.logo}
+      />
       <ul className="flex items-center gap-4 font-poppins text-md text-slate-500">
         <li
           onClick={() => setMenu("home")}
