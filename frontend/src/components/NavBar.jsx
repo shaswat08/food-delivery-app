@@ -25,7 +25,9 @@ const NavBar = ({ showLogin, setShowLogin }) => {
             menu === "menu" ? "pb-[1px] border-b-[2px] border-red-500" : ""
           } `}
         >
-          <Link>Menu</Link>
+          <a href="#menu" className="scroll-smooth">
+            Menu
+          </a>
         </li>
         <li
           onClick={() => setMenu("mobile-app")}
@@ -35,7 +37,7 @@ const NavBar = ({ showLogin, setShowLogin }) => {
               : ""
           } `}
         >
-          <Link>Mobile App</Link>
+          <a href="#app"> Mobile App </a>
         </li>
         <li
           onClick={() => setMenu("contact-us")}
@@ -45,7 +47,7 @@ const NavBar = ({ showLogin, setShowLogin }) => {
               : ""
           } `}
         >
-          <Link>Contact Us</Link>
+          <a href="#contact">Contact Us </a>
         </li>
       </ul>
       <div className="flex gap-6 items-center">

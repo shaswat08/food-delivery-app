@@ -13,7 +13,14 @@ const Header = () => {
           dolorum, pariatur accusamus temporibus itaque recusandae, voluptates
           quo, amet blanditiis fuga unde officia!
         </p>
-        <button className="px-4 py-2 mt-1 border-none rounded-full bg-slate-500 text-red-200 tracking-wider transform hover:scale-105 duration-200">
+        <button
+          onClick={() => {
+            document
+              .getElementById("menu")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="px-4 py-2 mt-1 border-none rounded-full bg-slate-500 text-red-200 tracking-wider transform hover:scale-105 duration-200"
+        >
           View Menu
         </button>
       </div>

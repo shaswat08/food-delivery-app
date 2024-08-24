@@ -15,7 +15,21 @@ export default {
           "100%": { opacity: "1" },
         },
       },
+      scrollBehaviour: {
+        smooth: "smooth",
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities(
+        {
+          ".scroll-smooth": {
+            scrollBehaviour: "smooth",
+          },
+        },
+        ["responsive", "hover"]
+      );
+    },
+  ],
 };

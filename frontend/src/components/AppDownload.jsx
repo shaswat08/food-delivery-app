@@ -3,7 +3,10 @@ import { assets } from "../assets/assets";
 
 const AppDownload = () => {
   return (
-    <div className="flex flex-col items-center justify-center p-20 gap-10">
+    <div
+      id="app"
+      className="flex flex-col items-center justify-center p-20 gap-10"
+    >
       <div className="mt-5 text-center">
         <p className="text-4xl italic font-semibold text-slate-600">
           For better experience, download the Pineapple App

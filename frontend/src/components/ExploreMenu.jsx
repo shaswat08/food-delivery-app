@@ -8,7 +8,7 @@ const ExploreMenu = ({ category, setCategory }) => {
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div id="menu" className="flex flex-col gap-5">
       <h1 className="text-3xl tracking-wider font-bold">Explore our menu</h1>
       <p className="max-w-[60%] break-words text-sm ">
         Choose from a diverse menu
