@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 import { GlobalContext } from "../context/StoreContext";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const { food_list, cart, handleRemoveFromCart, getCartTotal } =
     useContext(GlobalContext);
 
@@ -53,16 +55,18 @@ const Cart = () => {
             <hr />
             <div className="flex justify-between">
               <p>Delivery Fee</p>
-              <p>$10</p>
+              <p>${getCartTotal() === 0 ? 0 : 10}</p>
             </div>
             <hr />
             <div className="flex justify-between">
               <p className="font-bold">Total</p>
-              <p>${getCartTotal() + 10}</p>
+              <p>${getCartTotal() === 0 ? 0 : getCartTotal() + 10}</p>
             </div>
-            <button className="w-[50%] p-2 rounded-md bg-red-500 text-gray-100">
-              {" "}
-              Proceed to Checkout{" "}
+            <button
+              onClick={() => navigate("/order")}
+              className="w-[50%] p-2 rounded-md bg-red-500 text-gray-100 tracking-wider"
+            >
+              PROCEED TO CHECKOUT
             </button>
           </div>
         </div>
