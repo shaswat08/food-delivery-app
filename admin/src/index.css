@@ -20,3 +20,15 @@ hr{
     height: 1px;
     background-color: #a9a9a9;
 }
+
+@media (max-width: 500px){
+    .custom-navbar {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 900px) {
+    .custom-sidebar p{
+        display: none;
+    }
+}
