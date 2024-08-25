@@ -17,10 +17,10 @@ export const addFood = async (req, res) => {
     });
 
     await food.save();
-    res.status(200).json({ success: true, message: "Food successfully added" });
+    res.status(200).json({ success: true, message: "Food item added" });
   } catch (error) {
     console.log("Error in the addFood controller: ", error.message);
-    res.status(500).json({ sucess: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -29,10 +29,10 @@ export const addFood = async (req, res) => {
 export const listFood = async (req, res) => {
   try {
     const food = await Food.find({});
-    res.status(200).json({ sucess: true, data: food });
+    res.status(200).json({ success: true, data: food });
   } catch (error) {
     console.log("Error in the listFood controller: ", error.message);
-    res.status(500).json({ sucess: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -53,9 +53,9 @@ export const removeFood = async (req, res) => {
     fs.unlink(`uploads/${food.image}`, () => {});
     await Food.findByIdAndDelete(id);
 
-    res.status(200).json({ success: true, message: "Food removed" });
+    res.status(200).json({ success: true, message: "Food item removed" });
   } catch (error) {
     console.log("Error in the removeFood controller: ", error.message);
-    res.status(500).json({ sucess: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

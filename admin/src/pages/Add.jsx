@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import { axiosInstance } from "../utils/axiosInstance";
+import { toast } from "react-toastify";
 
 const Add = () => {
   const [error, setError] = useState("");
@@ -28,6 +29,8 @@ const Add = () => {
     formData.append("image", image);
     formData.append("category", data.category);
 
+    console.log(image);
+
     try {
       const response = await axiosInstance.post("/api/food/add", formData, {
         headers: {
@@ -44,8 +47,8 @@ const Add = () => {
           price: "",
         });
         setImage(false);
+        toast.success(response?.data?.message);
       }
-      
     } catch (error) {
       if (error?.response?.data) {
         setError(error?.response?.data?.message);
@@ -55,10 +58,6 @@ const Add = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(image);
-  }, [image]);
-
   return (
     <div className="w-[70%] ml-16 mt-12">
       <form onSubmit={handleSubmit} className="p-7 flex flex-col gap-5">
@@ -67,7 +66,7 @@ const Add = () => {
           <label htmlFor="image">
             <img
               src={image ? URL.createObjectURL(image) : assets.upload_area}
-              className="w-[180px] h-[120px] object-cover"
+              className="w-[180px] h-[120px] object-contain"
             />
           </label>
           <input
