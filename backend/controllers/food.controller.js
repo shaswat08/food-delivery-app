@@ -20,7 +20,7 @@ export const addFood = async (req, res) => {
     res.status(200).json({ success: true, message: "Food successfully added" });
   } catch (error) {
     console.log("Error in the addFood controller: ", error.message);
-    res.status(500).json({ sucess: false, message: "Internal server error" });
+    res.status(500).json({ sucess: false, message: error.message });
   }
 };
 
