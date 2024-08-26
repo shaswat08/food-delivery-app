@@ -72,9 +72,32 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Provided password is not valid" });
+    }
+
+    generateTokenSetCookie(res, user._id);
+
+    res.status(200).json({
+      success: true,
+      message: `User: ${username} logged in successfully`,
+    });
   } catch (error) {
-    console.log("Error om the loginUser controller");
+    console.log("Error on the loginUser controller: ", error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
