@@ -1,10 +1,12 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { food_list } from "../assets/assets";
+import Cookies from "js-cookie";
 
 export const GlobalContext = createContext(null);
 
 export const GlobalState = ({ children }) => {
   const [cart, setCart] = useState({});
+  const [username, setUsername] = useState("");
 
   const handleAddToCart = (id) => {
     !cart[id]
@@ -27,6 +29,15 @@ export const GlobalState = ({ children }) => {
 
     return totalAmount;
   };
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    if (Cookies.get("jcookie")) {
+      setToken(Cookies.get("jcookie"));
+    }
+  }, []);
+  
   return (
     <GlobalContext.Provider
       value={{
@@ -36,6 +47,10 @@ export const GlobalState = ({ children }) => {
         handleAddToCart,
         handleRemoveFromCart,
         getCartTotal,
+        token,
+        setToken,
+        username,
+        setUsername,
       }}
     >
       {children}

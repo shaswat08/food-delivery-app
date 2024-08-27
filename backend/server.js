@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { connectToDB } from "./config/db.js";
 import foodRouter from "./routes/food.route.js";
 import userRouter from "./routes/user.route.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -11,12 +12,13 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 connectToDB();
 

@@ -101,3 +101,26 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+//user logout
+
+export const logoutUser = async (req, res) => {
+  try {
+    const { jcookie } = req.cookies;
+
+    if (!jcookie) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No active session detected" });
+    }
+
+    res.cookie("jcookie", "", { maxAge: 0 });
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    console.log("Error in the logoutUser controller: ", error.message);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

@@ -1,11 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../context/StoreContext";
+import { axiosInstance } from "../utils/axiosInstance";
 
 const NavBar = ({ showLogin, setShowLogin }) => {
+  const navigate = useNavigate();
   const [menu, setMenu] = useState("home");
-  const { getCartTotal } = useContext(GlobalContext);
+  const { getCartTotal, setToken, token, username } = useContext(GlobalContext);
+
+  const handleLogout = async () => {
+    try {
+      const response = await axiosInstance.post("/api/user/logout");
+      if (response?.data?.success) {
+        setToken("");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="py-7 px-15 flex justify-between items-center">
@@ -64,12 +78,31 @@ const NavBar = ({ showLogin, setShowLogin }) => {
             <div className="absolute bg-red-400 size-[10px] -right-2 -top-1 rounded-full" />
           )}
         </div>
-        <button
-          onClick={() => setShowLogin(true)}
-          className="bg-transparent border-[1px] border-red-300 rounded-lg px-4 py-2 hover:bg-red-400 transition duration-100 ease-in"
-        >
-          Sign In
-        </button>
+        {!token ? (
+          <button
+            onClick={() => setShowLogin(true)}
+            className="bg-transparent border-[1px] border-red-300 rounded-lg px-4 py-2 hover:bg-red-400 transition duration-100 ease-in"
+          >
+            Sign In
+          </button>
+        ) : (
+          <div className="relative group cursor-pointer">
+            <img src={assets.profile_icon} />
+            <ul className="absolute z-[1] right-0 hidden group-hover:flex flex-col bg-white min-w-[100px]">
+              <li className="flex items-center gap-2 p-2 hover:bg-gray-200 cursor-pointer">
+                <img className="w-5" src={assets.bag_icon} />
+                <p className="text-sm">Orders</p>
+              </li>
+              <li
+                onClick={handleLogout}
+                className="flex items-center gap-2 p-2 hover:bg-gray-200 cursor-pointer"
+              >
+                <img className="w-5" src={assets.logout_icon} />
+                <p className="text-sm">Sign Out</p>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
