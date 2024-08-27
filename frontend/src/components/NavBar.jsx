@@ -7,7 +7,7 @@ import { axiosInstance } from "../utils/axiosInstance";
 const NavBar = ({ showLogin, setShowLogin }) => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState("home");
-  const { getCartTotal, setToken, token, username } = useContext(GlobalContext);
+  const { getCartTotal, setToken, token } = useContext(GlobalContext);
 
   const handleLogout = async () => {
     try {

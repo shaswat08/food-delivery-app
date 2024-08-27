@@ -1,12 +1,13 @@
 import { createContext, useEffect, useState } from "react";
-import { food_list } from "../assets/assets";
 import Cookies from "js-cookie";
+import { axiosInstance } from "../utils/axiosInstance";
 
 export const GlobalContext = createContext(null);
 
 export const GlobalState = ({ children }) => {
   const [cart, setCart] = useState({});
-  const [username, setUsername] = useState("");
+  const [food_list, setFoodList] = useState([]);
+  const [token, setToken] = useState("");
 
   const handleAddToCart = (id) => {
     !cart[id]
@@ -30,14 +31,29 @@ export const GlobalState = ({ children }) => {
     return totalAmount;
   };
 
-  const [token, setToken] = useState("");
+  const fetchFoodList = async () => {
+    try {
+      const response = await axiosInstance.get("/api/food/list");
+      if (response?.data?.success) {
+        setFoodList(response?.data?.data);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    if (Cookies.get("jcookie")) {
-      setToken(Cookies.get("jcookie"));
-    }
+    const loadData = async () => {
+      await fetchFoodList();
+      const storedToken = Cookies.get("jcookie");
+      if (storedToken) {
+        setToken(storedToken);
+      }
+    };
+    loadData();
   }, []);
-  
+
   return (
     <GlobalContext.Provider
       value={{
@@ -49,8 +65,6 @@ export const GlobalState = ({ children }) => {
         getCartTotal,
         token,
         setToken,
-        username,
-        setUsername,
       }}
     >
       {children}
