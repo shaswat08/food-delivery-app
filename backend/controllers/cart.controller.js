@@ -58,6 +58,11 @@ export const removeFromCart = async (req, res) => {
 
 export const getCartItems = async (req, res) => {
   try {
+    const userId = req.user;
+    const user = await User.findById(userId);
+
+    const cartData = user.cartData;
+    res.status(200).json({ success: true, cartData });
   } catch (error) {
     console.log("Error in the getCartItems controller: ", error.message);
     res.status(500).json({ success: false, message: error.message });

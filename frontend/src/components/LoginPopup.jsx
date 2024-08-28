@@ -8,7 +8,7 @@ import { GlobalContext } from "../context/StoreContext";
 
 const LoginPopup = ({ setShowLogin }) => {
   const [error, setError] = useState("");
-  const { token, setToken, setUsername } = useContext(GlobalContext);
+  const { token, setToken } = useContext(GlobalContext);
   const [currentState, setCurrentState] = useState("Login");
   const [data, setData] = useState({
     username: "",
@@ -32,7 +32,6 @@ const LoginPopup = ({ setShowLogin }) => {
         });
         if (response?.data?.success) {
           setError("");
-          setUsername(data.username);
           setData({
             username: "",
             password: "",
@@ -60,7 +59,7 @@ const LoginPopup = ({ setShowLogin }) => {
       if (error?.response?.data) {
         setError(error?.response?.data?.message);
       } else {
-        setError("something went wrong");
+        setError("Something went wrong");
       }
     }
   };

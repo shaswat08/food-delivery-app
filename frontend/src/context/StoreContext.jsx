@@ -9,13 +9,34 @@ export const GlobalState = ({ children }) => {
   const [food_list, setFoodList] = useState([]);
   const [token, setToken] = useState("");
 
-  const handleAddToCart = (id) => {
-    !cart[id]
-      ? setCart((prev) => ({ ...prev, [id]: 1 }))
-      : setCart((prev) => ({ ...prev, [id]: prev[id] + 1 }));
+  const handleAddToCart = async (id) => {
+    if (!cart[id]) {
+      setCart((prev) => ({ ...prev, [id]: 1 }));
+    } else {
+      setCart((prev) => ({ ...prev, [id]: prev[id] + 1 }));
+    }
+    if (token) {
+      try {
+        await axiosInstance.post("/api/cart/add", { itemId: id });
+      } catch (error) {
+        if (error?.response?.data?.error) {
+          console.log(error?.response?.data?.message);
+        }
+      }
+    }
   };
-  const handleRemoveFromCart = (id) => {
+  const handleRemoveFromCart = async (id) => {
     setCart((prev) => ({ ...prev, [id]: prev[id] - 1 }));
+
+    if (token) {
+      try {
+        await axiosInstance.post("/api/cart/remove", { itemId: id });
+      } catch (error) {
+        if (error?.response?.data?.error) {
+          console.log(error?.response?.data?.message);
+        }
+      }
+    }
   };
 
   const getCartTotal = () => {
@@ -36,10 +57,20 @@ export const GlobalState = ({ children }) => {
       const response = await axiosInstance.get("/api/food/list");
       if (response?.data?.success) {
         setFoodList(response?.data?.data);
-        console.log(response);
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const loadCartData = async () => {
+    if (token) {
+      try {
+        const response = await axiosInstance.post("/api/cart/get");
+        setCart(response?.data?.cartData || {});
+      } catch (error) {}
+    } else {
+      setCart({});
     }
   };
 
@@ -49,10 +80,14 @@ export const GlobalState = ({ children }) => {
       const storedToken = Cookies.get("jcookie");
       if (storedToken) {
         setToken(storedToken);
+        await loadCartData();
+      } else {
+        setToken("");
+        setCart({});
       }
     };
     loadData();
-  }, []);
+  }, [token]);
 
   return (
     <GlobalContext.Provider
