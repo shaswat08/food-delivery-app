@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { connectToDB } from "./config/db.js";
 import foodRouter from "./routes/food.route.js";
 import userRouter from "./routes/user.route.js";
+import cartRouter from "./routes/cart.route.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -26,6 +27,7 @@ connectToDB();
 
 app.use("/api/food", foodRouter);
 app.use("/api/user", userRouter);
+app.use("/api/cart", cartRouter);
 app.use("/images", express.static("uploads"));
 
 //initialize server
