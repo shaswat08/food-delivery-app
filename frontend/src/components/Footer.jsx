@@ -1,9 +1,10 @@
 import React from "react";
 import { assets } from "../assets/assets";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div id = "contact" className="mt-5 m-auto bg-slate-700 text-slate-300">
+    <div id="contact" className="mt-5 m-auto bg-slate-700 text-slate-300">
       <div className="p-12 flex justify-between items-start gap-28">
         <div className="flex flex-col gap-5 ">
           <img className="w-52 h-20 object-cover" src={assets.logo} />
@@ -22,7 +23,9 @@ const Footer = () => {
         <div className="flex flex-col gap-5 items-center">
           <h2 className="text-3xl font-bold">COMPANY</h2>
           <ul className="flex flex-col">
-            <li>Home</li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
             <li>About Us</li>
             <li>Delivery</li>
             <li>Privacy Policy</li>

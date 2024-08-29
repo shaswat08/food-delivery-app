@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import {
   FaCity,
   FaEnvelope,
@@ -15,11 +15,32 @@ import { GlobalContext } from "../context/StoreContext";
 const PlaceOrder = () => {
   const location = useLocation();
 
-  const { getCartTotal } = useContext(GlobalContext);
+  const { getCartTotal, token, food_list, cart } = useContext(GlobalContext);
+
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    postcode: "",
+    phone: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(data);
+  };
 
   useEffect(() => {
-    console.log(location);
-  }, [location]);
+    console.log(data);
+  }, [data]);
   return (
     <div className="flex justify-between gap-10">
       <div className="flex flex-col items-start gap-4 max-w-[400px] min-h-[300px]">
@@ -29,30 +50,70 @@ const PlaceOrder = () => {
             Delivery Information{" "}
           </h1>
         </div>
-        <form className="grid grid-cols-2 gap-2 h-full">
-          <DeliveryInput icon={FaUser} type="text" placeholder="First Name" />
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-2 h-full">
+          <DeliveryInput
+            icon={FaUser}
+            name="firstName"
+            type="text"
+            placeholder="First Name"
+            value={data.firstName}
+            onChange={handleChange}
+          />
           <DeliveryInput
             icon={FaRoad}
+            name="street"
             type="text"
             placeholder="Street Address"
+            value={data.street}
+            onChange={handleChange}
           />
-          <DeliveryInput icon={FaUser} type="text" placeholder="Last Name" />
-          <DeliveryInput icon={FaCity} type="text" placeholder="City" />
+          <DeliveryInput
+            icon={FaUser}
+            name="lastName"
+            type="text"
+            placeholder="Last Name"
+            value={data.lastName}
+            onChange={handleChange}
+          />
+          <DeliveryInput
+            icon={FaCity}
+            name="city"
+            type="text"
+            placeholder="City"
+            value={data.city}
+            onChange={handleChange}
+          />
           <DeliveryInput
             icon={FaEnvelope}
+            name="email"
             type="email"
             placeholder="Email Address"
+            value={data.email}
+            onChange={handleChange}
           />
           <DeliveryInput
             icon={FaMapMarkerAlt}
+            name="state"
             type="text"
             placeholder="State"
+            value={data.state}
+            onChange={handleChange}
           />
-          <DeliveryInput icon={FaPhone} type="tel" placeholder="Phone Number" />
+          <DeliveryInput
+            icon={FaPhone}
+            name="phone"
+            type="tel"
+            placeholder="Phone Number"
+            value={data.phone}
+            onChange={handleChange}
+          />
           <DeliveryInput
             icon={FaEnvelopeOpenText}
+            name="postcode"
             type="text"
             placeholder="Post code"
+            value={data.postcode}
+            onChange={handleChange}
           />
         </form>
       </div>
@@ -75,8 +136,8 @@ const PlaceOrder = () => {
               <p>${getCartTotal() === 0 ? 0 : getCartTotal() + 10}</p>
             </div>
             <button
-              onClick={() => navigate("/order")}
-              className="w-[50%] p-2 rounded-md bg-red-500 text-gray-100 tracking-wider" 
+              onClick={() => Navigate("/order")}
+              className="w-[50%] p-2 rounded-md bg-red-500 text-gray-100 tracking-wider"
             >
               PROCEED TO PAYMENT
             </button>
