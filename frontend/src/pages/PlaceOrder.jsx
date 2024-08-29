@@ -11,11 +11,13 @@ import {
 } from "react-icons/fa";
 import DeliveryInput from "../components/DeliveryInput";
 import { GlobalContext } from "../context/StoreContext";
+import { axiosInstance } from "../utils/axiosInstance";
 
 const PlaceOrder = () => {
   const location = useLocation();
 
   const { getCartTotal, token, food_list, cart } = useContext(GlobalContext);
+  const [error, setError] = useState("");
 
   const [data, setData] = useState({
     firstName: "",
@@ -33,14 +35,36 @@ const PlaceOrder = () => {
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const placeOrder = async (e) => {
     e.preventDefault();
-    console.log(data);
+    try {
+      let orderItems = [];
+      food_list.map((item) => {
+        if (cart[item._id] > 0) {
+          let itemInfo = item;
+          itemInfo["quantity"] = cart[item._id];
+          orderItems.push(itemInfo);
+        }
+      });
+
+      const orderData = {
+        address: data,
+        items: orderItems,
+        amount: getCartTotal() + 10,
+      };
+
+      const response = await axiosInstance.post("/api/order/place", orderData);
+      if (response?.data?.success) {
+        const { session_url } = response?.data;
+        window.location.replace(session_url);
+      }
+    } catch (error) {
+      if (error.status === 401) {
+        setError("Please sign-in to your account to proceed with the payment");
+      }
+    }
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
     <div className="flex justify-between gap-10">
       <div className="flex flex-col items-start gap-4 max-w-[400px] min-h-[300px]">
@@ -50,8 +74,9 @@ const PlaceOrder = () => {
             Delivery Information{" "}
           </h1>
         </div>
-        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-2 h-full">
+        <form onSubmit={placeOrder} className="grid grid-cols-2 gap-2 h-full">
           <DeliveryInput
+            required
             icon={FaUser}
             name="firstName"
             type="text"
@@ -60,6 +85,7 @@ const PlaceOrder = () => {
             onChange={handleChange}
           />
           <DeliveryInput
+            required
             icon={FaRoad}
             name="street"
             type="text"
@@ -68,6 +94,7 @@ const PlaceOrder = () => {
             onChange={handleChange}
           />
           <DeliveryInput
+            required
             icon={FaUser}
             name="lastName"
             type="text"
@@ -76,6 +103,7 @@ const PlaceOrder = () => {
             onChange={handleChange}
           />
           <DeliveryInput
+            required
             icon={FaCity}
             name="city"
             type="text"
@@ -84,6 +112,7 @@ const PlaceOrder = () => {
             onChange={handleChange}
           />
           <DeliveryInput
+            required
             icon={FaEnvelope}
             name="email"
             type="email"
@@ -92,6 +121,7 @@ const PlaceOrder = () => {
             onChange={handleChange}
           />
           <DeliveryInput
+            required
             icon={FaMapMarkerAlt}
             name="state"
             type="text"
@@ -100,6 +130,7 @@ const PlaceOrder = () => {
             onChange={handleChange}
           />
           <DeliveryInput
+            required
             icon={FaPhone}
             name="phone"
             type="tel"
@@ -108,6 +139,7 @@ const PlaceOrder = () => {
             onChange={handleChange}
           />
           <DeliveryInput
+            required
             icon={FaEnvelopeOpenText}
             name="postcode"
             type="text"
@@ -115,7 +147,16 @@ const PlaceOrder = () => {
             value={data.postcode}
             onChange={handleChange}
           />
+          <div className="w-full mt-4">
+            <button
+              type="submit"
+              className="w-full p-2 rounded-md bg-red-500 text-gray-100 tracking-wider"
+            >
+              PROCEED TO PAYMENT
+            </button>
+          </div>
         </form>
+        {error && <p className="text-sm text-red-600">{error}</p>}
       </div>
       <div className="w-[400px]">
         <div className="max-w-[500px]">
@@ -135,12 +176,6 @@ const PlaceOrder = () => {
               <p className="font-bold">Total</p>
               <p>${getCartTotal() === 0 ? 0 : getCartTotal() + 10}</p>
             </div>
-            <button
-              onClick={() => Navigate("/order")}
-              className="w-[50%] p-2 rounded-md bg-red-500 text-gray-100 tracking-wider"
-            >
-              PROCEED TO PAYMENT
-            </button>
           </div>
         </div>
       </div>

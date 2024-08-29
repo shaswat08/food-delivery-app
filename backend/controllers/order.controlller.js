@@ -56,3 +56,19 @@ export const placeOrder = async (req, res) => {
     res.status(500).json({ success: false, message: error });
   }
 };
+
+export const verifyOrder = async (req, res) => {
+  const { orderId, success } = req.body;
+  try {
+    if (success == "true") {
+      await Order.findByIdAndUpdate(orderId, { payment: true });
+      res.status(200).json({ success: true, message: "Payment Successfull" });
+    } else {
+      await Order.findByIdAndDelete(orderId);
+      res.status(400).json({ success: false, message: "Payment failed" });
+    }
+  } catch (error) {
+    console.error("Error in the verifyOrder controller: ", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
