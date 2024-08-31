@@ -72,3 +72,16 @@ export const verifyOrder = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
+export const userOrder = async (req, res) => {
+  try {
+    const id = req.user;
+
+    const orders = await Order.find({ userId: id });
+
+    res.status(200).json({ success: true, data: orders });
+  } catch (error) {
+    console.error("Error in the userOrder controller: ", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};

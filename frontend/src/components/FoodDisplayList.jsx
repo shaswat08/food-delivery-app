@@ -7,11 +7,11 @@ const FoodDisplayList = ({ item }) => {
     useContext(GlobalContext);
 
   return (
-    <div className="w-[100%] m-auto rounded-lg shadow-lg shadow-slate-200 animate-fadeIn">
+    <div className="w-[100%] max-w-sm m-auto rounded-lg shadow-lg shadow-slate-200 animate-fadeIn transition-transform transform duration-500 ease-in-out hover:scale-105 hover:shadow-xl">
       <div className="relative">
         <img
           src={"http://localhost:4000/images/" + item.image}
-          className="w-[100%] rounded-t-lg"
+          className="w-full h-64 object-cover rounded-t-lg"
         />
         {!cart[item._id] ? (
           <img

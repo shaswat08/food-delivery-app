@@ -91,10 +91,12 @@ const NavBar = ({ showLogin, setShowLogin }) => {
           <div className="relative group cursor-pointer">
             <img src={assets.profile_icon} />
             <ul className="absolute z-[1] right-0 hidden group-hover:flex flex-col bg-white min-w-[100px]">
-              <li className="flex items-center gap-2 p-2 hover:bg-gray-200 cursor-pointer">
-                <img className="w-5" src={assets.bag_icon} />
-                <p className="text-sm">Orders</p>
-              </li>
+              <Link to="/userorders">
+                <li className="flex items-center gap-2 p-2 hover:bg-gray-200 cursor-pointer">
+                  <img className="w-5" src={assets.bag_icon} />
+                  <p className="text-sm">Orders</p>
+                </li>
+              </Link>
               <li
                 onClick={handleLogout}
                 className="flex items-center gap-2 p-2 hover:bg-gray-200 cursor-pointer"
