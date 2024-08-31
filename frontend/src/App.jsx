@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import NavBar from "./components/NavBar";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import PlaceOrder from "./pages/PlaceOrder";
@@ -14,6 +16,7 @@ const App = () => {
   return (
     <>
       <div className="flex flex-col min-h-screen">
+        <ToastContainer autoClose={2000} />
         {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
         <div className="flex-grow w-[80%] m-auto">
           <NavBar showLogin={showLogin} setShowLogin={setShowLogin} />

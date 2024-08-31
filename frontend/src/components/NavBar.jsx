@@ -3,6 +3,7 @@ import { assets } from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { GlobalContext } from "../context/StoreContext";
 import { axiosInstance } from "../utils/axiosInstance";
+import { toast } from "react-toastify";
 
 const NavBar = ({ showLogin, setShowLogin }) => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const NavBar = ({ showLogin, setShowLogin }) => {
       if (response?.data?.success) {
         setToken("");
         navigate("/");
+        toast.success("Logged Out");
       }
     } catch (error) {
       console.log(error);

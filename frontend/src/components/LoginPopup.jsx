@@ -5,6 +5,7 @@ import Input from "./Input";
 import { assets } from "../assets/assets";
 import { axiosInstance } from "../utils/axiosInstance";
 import { GlobalContext } from "../context/StoreContext";
+import { toast } from "react-toastify";
 
 const LoginPopup = ({ setShowLogin }) => {
   const [error, setError] = useState("");
@@ -38,6 +39,7 @@ const LoginPopup = ({ setShowLogin }) => {
           });
           setToken(Cookies.get("jcookie"));
           setShowLogin(false);
+          toast.success(`Welcome ${data.username}`);
         }
       } else {
         const response = await axiosInstance.post("/api/user/register", {
