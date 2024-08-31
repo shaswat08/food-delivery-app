@@ -85,3 +85,35 @@ export const userOrder = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
+// orders for the admin panel
+
+export const listOrders = async (req, res) => {
+  try {
+    const orders = await Order.find();
+
+    if (orders.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No orders found" });
+    }
+    res.status(200).json({ success: true, data: orders });
+  } catch (error) {
+    console.error("Error in the listOrders controller: ", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+//api for updating order status
+
+export const updateStatus = async (req, res) => {
+  try {
+    const { id, status } = req.body;
+    await Order.findByIdAndUpdate(id, { status: status });
+
+    res.json({ success: true, message: "Status updated" });
+  } catch (error) {
+    console.error("Error in the updateStatus controller: ", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};

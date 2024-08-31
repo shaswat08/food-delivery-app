@@ -66,7 +66,7 @@ const PlaceOrder = () => {
   };
 
   return (
-    <div className="flex justify-between gap-10">
+    <div className="flex justify-between gap-10 relative">
       <div className="flex flex-col items-start gap-4 max-w-[400px] min-h-[300px]">
         <div>
           <h1 className="text-3xl font-semibold tracking-wider">
@@ -147,7 +147,7 @@ const PlaceOrder = () => {
             value={data.postcode}
             onChange={handleChange}
           />
-          <div className="w-full mt-4">
+          <div className="mt-4 absolute bottom-10 -right-1">
             <button
               type="submit"
               className="w-full p-2 rounded-md bg-red-500 text-gray-100 tracking-wider"
@@ -160,7 +160,7 @@ const PlaceOrder = () => {
       </div>
       <div className="w-[400px]">
         <div className="max-w-[500px]">
-          <h1 className="mb-5 text-2xl font-bold"> Cart Total </h1>
+          <h1 className="text-3xl font-semibold tracking-wider mb-5"> Cart Total </h1>
           <div className="flex flex-col gap-4 ">
             <div className="flex justify-between">
               <p>Subtotal</p>

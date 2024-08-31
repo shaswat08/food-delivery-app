@@ -67,7 +67,6 @@ const NavBar = ({ showLogin, setShowLogin }) => {
         </li>
       </ul>
       <div className="flex gap-6 items-center">
-        <img className="cursor-pointer" src={assets.search_icon} />
         <div className="relative">
           <Link to="/cart">
             <img
