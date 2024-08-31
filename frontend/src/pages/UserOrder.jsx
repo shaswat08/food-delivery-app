@@ -10,8 +10,6 @@ const UserOrder = () => {
   const fetchOrders = async () => {
     try {
       const response = await axiosInstance.post("/api/order/userOrder");
-      console.log(response?.data?.data);
-
       if (response?.data?.success) {
         setData(response?.data?.data);
       }
@@ -51,8 +49,11 @@ const UserOrder = () => {
               <span className="text-xs">&#8226; </span>
               {order.status}
             </p>
-            <button className="p-2 rounded-md bg-red-200 tracking-wider hover:bg-red-300">
-              Track Order
+            <button
+              onClick={() => fetchOrders()}
+              className="p-2 rounded-md bg-red-200 tracking-wider hover:bg-red-300"
+            >
+              Track Order Status
             </button>
           </div>
         ))}

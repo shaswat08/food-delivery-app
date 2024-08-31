@@ -72,7 +72,7 @@ const Add = () => {
           <input
             id="image"
             type="file"
-            hidden="true"
+            hidden={true}
             onChange={(e) => setImage(e.target.files[0])}
           />
         </div>

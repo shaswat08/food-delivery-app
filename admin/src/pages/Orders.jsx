@@ -14,12 +14,27 @@ const Orders = () => {
 
       if (response?.data?.success) {
         setOrders(response?.data?.data);
-        console.log(response?.data?.data);
       }
     } catch (error) {
       if (error?.response?.data) {
         toast.error(error?.response?.message);
       }
+      console.log(error);
+    }
+  };
+
+  const handleStatus = async (e, id) => {
+    try {
+      const response = await axiosInstance.post("/api/order/update", {
+        id,
+        status: e.target.value,
+      });
+
+      if (response?.data?.success) {
+        console.log(response);
+        fetchAllOrders();
+      }
+    } catch (error) {
       console.log(error);
     }
   };
@@ -87,7 +102,11 @@ const Orders = () => {
             </div>
             <p>Items: {order.items.length}</p>
             <p>${order.amount}.00</p>
-            <select className="p-2 bg-red-200 rounded-md text-center">
+            <select
+              value={order.status}
+              onChange={(e) => handleStatus(e, order._id)}
+              className="p-2 bg-red-200 rounded-md text-center"
+            >
               <option value="Food Processing">Food Processing</option>
               <option value="Out for delivery">Out for delivery</option>
               <option value="Food Delivered">Food Delivered</option>
